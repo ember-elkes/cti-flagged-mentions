@@ -1,0 +1,14 @@
+[
+  { "name": "Cisco Talos", "url": "http://feeds.feedburner.com/feedburner/Talos" },
+  { "name": "The Hacker News", "url": "https://feeds.feedburner.com/TheHackersNews" },
+  { "name": "BleepingComputer", "url": "https://www.bleepingcomputer.com/feed/" },
+  { "name": "Dark Reading", "url": "https://www.darkreading.com/rss/all.xml" },
+  { "name": "Krebs on Security", "url": "https://krebsonsecurity.com/feed/" },
+  { "name": "CrowdStrike Threat Intel", "url": "https://www.crowdstrike.com/en-us/blog/feed/" },
+  { "name": "Palo Alto Unit 42", "url": "https://unit42.paloaltonetworks.com/feed/" },
+  { "name": "Microsoft Security Blog", "url": "https://www.microsoft.com/security/blog/feed/" },
+  { "name": "Microsoft MSRC Blog", "url": "https://msrc-blog.microsoft.com/feed/" },
+  { "name": "SecureList (Kaspersky)", "url": "https://securelist.com/feed/" },
+  { "name": "The Record (Recorded Future)", "url": "https://therecord.media/feed/" },
+  { "name": "Google Alerts - PASTE YOUR FEED URL HERE", "url": "https://www.google.com/alerts/feeds/10859635508733313755/11498236947007417441" }
+]
