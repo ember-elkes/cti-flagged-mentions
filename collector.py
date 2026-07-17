@@ -93,6 +93,21 @@ def strip_html(text):
     return re.sub(r"<[^<]+?>", "", text or "")
 
 
+def safe_json(resp, context=""):
+    """resp.json(), but with useful diagnostics if the body isn't valid JSON.
+    A 2xx status with a non-JSON body usually means a bot-challenge or
+    interstitial page from a WAF/security layer rather than a real API
+    response -- this surfaces what actually came back instead of just
+    crashing on an opaque JSONDecodeError."""
+    try:
+        return resp.json()
+    except ValueError:
+        snippet = resp.text[:200].replace("\n", " ")
+        label = f" from {context}" if context else ""
+        print(f"Non-JSON response{label} (HTTP {resp.status_code}): {snippet}", file=sys.stderr)
+        raise
+
+
 def mention_exists(source_url):
     resp = requests.get(
         MENTION_ENDPOINT,
@@ -101,7 +116,7 @@ def mention_exists(source_url):
         timeout=TIMEOUT,
     )
     resp.raise_for_status()
-    return len(resp.json()) > 0
+    return len(safe_json(resp, "mention_exists")) > 0
 
 
 def get_or_create_term(endpoint, name, cache):
@@ -109,13 +124,13 @@ def get_or_create_term(endpoint, name, cache):
         return cache[name]
     resp = requests.get(endpoint, params={"search": name, "per_page": 100}, auth=AUTH, timeout=TIMEOUT)
     resp.raise_for_status()
-    for term in resp.json():
+    for term in safe_json(resp, "term search"):
         if term["name"].lower() == name.lower():
             cache[name] = term["id"]
             return term["id"]
     resp = requests.post(endpoint, json={"name": name}, auth=AUTH, timeout=TIMEOUT)
     resp.raise_for_status()
-    term_id = resp.json()["id"]
+    term_id = safe_json(resp, "term create")["id"]
     cache[name] = term_id
     return term_id
 
@@ -140,7 +155,7 @@ def create_flagged_mention(entry, matches, actor_cache, status_cache):
     }
     resp = requests.post(MENTION_ENDPOINT, json=payload, auth=AUTH, timeout=TIMEOUT)
     resp.raise_for_status()
-    return resp.json()
+    return safe_json(resp, "create mention")
 
 
 def main():
@@ -188,7 +203,7 @@ def main():
                 create_flagged_mention(entry, matches, actor_cache, status_cache)
                 created += 1
                 print(f"Flagged: {entry.get('title')} -> {[m[0] for m in matches]}")
-            except requests.HTTPError as e:
+            except requests.exceptions.RequestException as e:
                 print(f"Failed on {link}: {e}", file=sys.stderr)
 
     print(f"Done. Checked {checked} articles across {len(feeds)} feed(s), flagged {created} new mention(s).")
