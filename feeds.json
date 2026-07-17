@@ -10,5 +10,5 @@
   { "name": "Microsoft MSRC Blog", "url": "https://msrc-blog.microsoft.com/feed/" },
   { "name": "SecureList (Kaspersky)", "url": "https://securelist.com/feed/" },
   { "name": "The Record (Recorded Future)", "url": "https://therecord.media/feed/" },
-  { "name": "Google Alerts - PASTE YOUR FEED URL HERE", "url": "https://www.google.com/alerts/feeds/10859635508733313755/11498236947007417441" }
+  { "name": "Google Alerts - Lazarus Group", "url": "https://www.google.com/alerts/feeds/10859635508733313755/11498236947007417441" }
 ]
