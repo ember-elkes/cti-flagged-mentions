@@ -8,5 +8,5 @@
   { "name": "Microsoft Security Blog", "url": "https://www.microsoft.com/security/blog/feed/" },
   { "name": "SecureList (Kaspersky)", "url": "https://securelist.com/feed/" },
   { "name": "The Record (Recorded Future)", "url": "https://therecord.media/feed/" },
-  { "name": "Google Alerts - Lazarus Group", "url": "https://www.google.com/alerts/feeds/10859635508733313755/11498236947007417441" }
+  
 ]
