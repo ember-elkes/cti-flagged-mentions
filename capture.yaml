@@ -1,0 +1,12 @@
+name: Capture URL
+on:
+  repository_dispatch:
+    types: [capture-url]
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - - run: echo "Received: $CAPTURE_URL"
+            env:
+          CAPTURE_URL: ${{ github.event.client_payload.url }}
