@@ -8,5 +8,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
        - run: echo "Received: $CAPTURE_URL"
-       env:
+         env:
           CAPTURE_URL: ${{ github.event.client_payload.url }}
