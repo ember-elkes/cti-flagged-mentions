@@ -1,4 +1,4 @@
-Threat actor mention collector.
+"""Threat actor mention collector.
 
 
 Environment variables required:
@@ -10,7 +10,7 @@ Environment variables required:
 Optional environment variables:
   FEEDS_FILE   path to feeds.json  (default: feeds.json)
   ACTORS_FILE  path to actors.json (default: actors.json)
-
+"""
 import os
 import sys
 from datetime import datetime, timezone
