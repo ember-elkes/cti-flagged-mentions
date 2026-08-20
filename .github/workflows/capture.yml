@@ -18,4 +18,4 @@ jobs:
       - run: python capture.py
         env:
           CAPTURE_URL: ${{ github.event.client_payload.url }}
-          NOTION_TOKEN: ${{ secrets.TAS_NOTION_TOKEN }}
+          TAS_NOTION_TOKEN: ${{ secrets.TAS_NOTION_TOKEN }}
