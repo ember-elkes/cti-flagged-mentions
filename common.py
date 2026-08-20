@@ -41,7 +41,8 @@ def build_alias_index(actors):
     index = []
     for actor in actors:
         canonical = actor["name"]
-        for alias in actor.get("aliases", [canonical]):
+        aliases = [canonical] + actor.get("aliases", [])
+        for alias in aliases:
             pattern = re.compile(r"\b" + re.escape(alias) + r"\b", re.IGNORECASE)
             index.append((pattern, canonical, alias))
     return index
