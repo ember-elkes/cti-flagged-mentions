@@ -44,64 +44,37 @@ def derive_vendor(url):
 
 def notion_entry_exists(url):
     resp = requests.post(
-        f"https://api.notion.com/v1/data_sources/3c14ef9df9e980aaba1ad597ac99021e/query",
+        f"https://api.notion.com/v1/data_sources/{INBOX_DS_ID}/query",
         headers=NOTION_HEADERS,
         json={"filter": {"property": "URL", "url": {"equals": url}},
             "page_size": 1},
         timeout=30,
     )
     resp.raise_for_status()
-    return len(safe_json(resp, "inbox query")["results"]) > 0# rung 5, piece 1
-def resolve_actor_ids(names):
-    resolved, unresolved = [], []
-    for name in names:
-        resp = requests.post(
-            f"https://api.notion.com/v1/data_sources/3c14ef9df9e980aaba1ad597ac99021e/query",
-            headers=NOTION_HEADERS,
-            json={"filter": {"property": "Primary Name", "title": {"equals": name}},
-                "page_size": 1},
-            timeout=30,
-        )
-        resp.raise_for_status()
-        results = safe_json(resp, f"actor lookup {name}")["results"]
-        if results:
-            resolved.append((name, results[0]["id"]))
-        else:
-            unresolved.append(name)
-    return resolved, unresolved
-def create_entry(url, title, date, text_source, resolved, aliases_hit, status, reason):
-    properties = {
-        "Title": {"title": [{"text": {"content": title or url}}]},
-        "URL": {"url": url},
-        "Threat Actors": {"relation": [{"id": pid} for _, pid in resolved]},
-        "Matched Aliases": {"rich_text": [{"text": {"content": aliases_hit}}]},
-        "Source": {"rich_text": [{"text": {"content": text_source}}]},
-        "Status": {"select": {"name": status}},
-    }
-    if date:
-        properties["Published Date"] = {"date": {"start": date}}
-    if reason:
-        properties["Review Reason"] = {"rich_text": [{"text": {"content": reason}}]}
+    return len(safe_json(resp, "inbox query")["results"]) > 0
+    print(resp.text)
 
-    resp = requests.post(
-        "https://api.notion.com/v1/pages",
-        headers=NOTION_HEADERS,
-        json={"parent": {"data_source_id": INBOX_DS_ID}, "properties": properties},
-        timeout=30,
-    )
-    resp.raise_for_status()
-    print(f"Created entry: {title or url} [{status}]")     
+
+
+
+# if __name__ == "__main__":
+#    html = fetch_article("https://www.ic3.gov/PSA/2026/PSA260515")
+#    if html:
+#        title, date, text = extract_content(html)
+#        print(f"Title: {title}")
+#        print(f"Date:  {date}")
+#        print(f"Text:  {(text or '')[:200]}")
+#        threat_match = f"{title} {text}"
+
+#    alias_index = build_alias_index(actors)
+#    matches = match_actors(threat_match, alias_index)
+#    print(f"matches:    {matches}")
 
 if __name__ == "__main__":
-    html = fetch_article("https://www.tenable.com/blog/what-to-know-about-cyberav3ngers-the-irgc-linked-group-targeting-critical-infrastructure")
-    if html:
-        title, date, text = extract_content(html)
-        print(f"Title: {title}")
-        print(f"Date:  {date}")
-        print(f"Text:  {(text or '')[:200]}")
-    threat_match = f"{title} {text}"
+    test_url = "https://definitely-not-captured.example"
+    print(f"Checking for: {test_url}")
+    print(f"Exists: {notion_entry_exists(test_url)}")
 
-    alias_index = build_alias_index(actors)
     matches = match_actors(threat_match, alias_index)
 
 print(f"matches:    {matches}")
