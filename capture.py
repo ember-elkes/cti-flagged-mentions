@@ -1,9 +1,11 @@
 import os
+import io
 import sys
 from datetime import datetime, timezone
 import trafilatura
 import feedparser
 import requests
+import pypdf
 from urllib.parse import urlparse
 from common import USER_AGENT, load_json, build_alias_index, match_actors, strip_html, safe_json
 
@@ -21,22 +23,67 @@ NOTION_HEADERS = {
 }
 
 def fetch_article(url):
-    """GET the page. Returns HTML string on success, None on any failure."""
+    """Returns (kind, payload): ("html", str) | ("pdf", bytes) | (None, None)."""
     try:
         resp = requests.get(url, headers={"User-Agent": USER_AGENT}, timeout=30)
         resp.raise_for_status()
-        return resp.text
+        
+        # Extract and sanitize the content type header
+        content_type = resp.headers.get("Content-Type", "").lower()
+        
+        # Branch based on the content type
+        if "application/pdf" in content_type:
+            return "pdf", resp.content
+        else:
+            # Fall back to HTML string processing
+            return "html", resp.text
+            
     except requests.exceptions.RequestException as e:
         print(f"Fetch failed for {url}: {e}", file=sys.stderr)
-        return None
+        return None, None
 
-def extract_content(html):
+
+def extract_content(kind, payload):
     """Returns (title, date, text) -- any of which may be None."""
-    metadata = trafilatura.extract_metadata(html)
-    text = trafilatura.extract(html)
-    title = metadata.title if metadata else None
-    date = metadata.date if metadata else None
-    return title, date, text
+    if kind == "html":
+        metadata = trafilatura.extract_metadata(payload)
+        text = trafilatura.extract(payload)
+        title = metadata.title if metadata else None
+        date = metadata.date if metadata else None
+        return title, date, text
+        
+    elif kind == "pdf":
+        try:
+            # Load bytes into an in-memory stream for pypdf
+            pdf_file = io.BytesIO(payload)
+            reader = pypdf.PdfReader(pdf_file)
+            
+            # Extract text page by page
+            text_pages = []
+            for page in reader.pages:
+                page_text = page.extract_text()
+                if page_text:
+                    text_pages.append(page_text)
+            text = "\n".join(text_pages) if text_pages else None
+            
+            # Extract title metadata with a junk-filter fallback
+            title = None
+            if reader.metadata and reader.metadata.title:
+                raw_title = reader.metadata.title.strip()
+                # Skip known automated junk titles from word processors
+                if raw_title and not raw_title.startswith("Microsoft Word"):
+                    title = raw_title
+            
+            # Intentionally skip date per the specification rule
+            date = None
+            
+            return title, date, text
+
+        except Exception as e:
+            print(f"PDF extraction failed: {e}", file=sys.stderr)
+            return None, None, None
+            
+    return None, None, None
 
 def derive_vendor(url): 
         domain = urlparse(url).netloc
@@ -118,19 +165,16 @@ def main():
     if notion_entry_exists(url):
         print("Entry exists")
         return
-    html = fetch_article(url)
-    if not html:
+        kind, payload = fetch_article(url)
+    if not payload:
         create_entry(
-        url=url,
-        title="",
-        date="",
-        text_source="",
-        resolved="",          # empty relation is legal -- no actor lookup needed for this test
-        aliases_hit="",
-        status="Needs Review",
-        reason="fetch failed",)
+            url=url, title="", date="", text_source="", resolved="", 
+            aliases_hit="", status="Needs Review", reason="fetch failed"
+        )
         return
-    title, date, text = extract_content(html)
+
+    # UPDATED: Pass both variables down to extraction
+    title, date, text = extract_content(kind, payload)
     alias_index = build_alias_index(actors)
     matches = match_actors(f"{title} {text}", alias_index)
     resolved, unresolved = resolve_actor_ids([name for name, _ in matches])
