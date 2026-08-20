@@ -1,23 +1,23 @@
 [
   {
     "name": "APT29",
-    "aliases": ["APT29", "Cozy Bear", "Midnight Blizzard", "NOBELIUM", "The Dukes", "Yttrium"]
+    "aliases": ["Cozy Bear", "Midnight Blizzard", "NOBELIUM", "The Dukes", "Yttrium"]
   },
   {
     "name": "APT28",
-    "aliases": ["APT28", "Fancy Bear", "Forest Blizzard", "STRONTIUM", "Sofacy", "Sednit"]
+    "aliases": [ "Fancy Bear", "Forest Blizzard", "STRONTIUM", "Sofacy", "Sednit"]
   },
   {
     "name": "Lazarus Group",
-    "aliases": ["Lazarus Group", "Lazarus", "Hidden Cobra", "Diamond Sleet", "APT38", "Zinc"]
+    "aliases": ["Lazarus", "Hidden Cobra", "Diamond Sleet", "APT38", "Zinc"]
   },
   {
     "name": "FIN7",
-    "aliases": ["FIN7", "Carbon Spider", "Sangria Tempest", "Navigator Group"]
+    "aliases": ["Carbon Spider", "Sangria Tempest", "Navigator Group"]
   },
   {
     "name": "Volt Typhoon",
-    "aliases": ["Volt Typhoon", "Bronze Silhouette", "Vanguard Panda", "Insidious Taurus"]
+    "aliases": ["Bronze Silhouette", "Vanguard Panda", "Insidious Taurus"]
   },
    {
     "name": "Hunters International",
@@ -26,5 +26,9 @@
      {
     "name": "Anubis",
     "aliases": ["Sphinx"]
+  },
+  {
+    "name": "CyberAv3ngers",
+    "aliases": ["Soldiers of Solomon", "Soldiers of Soloman"]
   }
 ]
