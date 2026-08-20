@@ -7,6 +7,8 @@ NOTION_HEADERS = {
     "Content-Type": "application/json",
 }
 
+ACTOR_DS_ID =  "2cb4ef9d-f9e9-80f4-a0d5-000ba2963368"
+
 resp = requests.post(
     "https://api.notion.com/v1/search",
     headers=NOTION_HEADERS,
@@ -22,3 +24,11 @@ for r in data.get("results", []):
 if not data.get("results"):
     print("No data sources visible to this integration.")
     print(data)
+
+resp = requests.get(
+    f"https://api.notion.com/v1/data_sources/{ACTOR_DS_ID}",
+    headers=NOTION_HEADERS, timeout=30,
+)
+print("Status:", resp.status_code)
+for name, spec in resp.json().get("properties", {}).items():
+    print(f"  {name}  ({spec['type']})")
