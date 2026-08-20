@@ -7,6 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: |
+          if [ -z "$NOTION_TOKEN" ]; then echo "TOKEN IS EMPTY"; else echo "Token present, length ${#NOTION_TOKEN}"; fi
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
