@@ -9,7 +9,7 @@ from common import USER_AGENT, load_json, build_alias_index, match_actors, strip
 
 # --- config (application reads config, remember) ---
 TAS_NOTION_TOKEN = os.environ.get("TAS_NOTION_TOKEN")
-INBOX_DS_ID = "3c14ef9d-f9e9-808d-8f48-000b3fa5e197"
+INBOX_DS_ID = "3c14ef9df9e980aaba1ad597ac99021e"
 ACTOR_DS_ID =  "2cb4ef9d-f9e9-80f4-a0d5-000ba2963368"
 ACTORS_FILE = os.environ.get("ACTORS_FILE", "actors.json")
 actors = load_json(ACTORS_FILE, [])
