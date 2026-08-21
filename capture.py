@@ -165,7 +165,7 @@ def main():
     if notion_entry_exists(url):
         print("Entry exists")
         return
-        kind, payload = fetch_article(url)
+    kind, payload = fetch_article(url)
     if not payload:
         create_entry(
             url=url, title="", date="", text_source="", resolved="", 
@@ -179,11 +179,10 @@ def main():
     matches = match_actors(f"{title} {text}", alias_index)
     resolved, unresolved = resolve_actor_ids([name for name, _ in matches])
     status, reason = decide(matches, unresolved, text)
-    create_entry(url=url, title=title, date=date,
-            text_source=derive_vendor(url),
-            resolved=resolved,
-            aliases_hit=", ".join(alias for _, alias in matches),
-            status=status, reason=reason)
+    create_entry(url=url, title=None, date=None,
+         text_source=derive_vendor(url), resolved=[],
+         aliases_hit="", status="Needs Review",
+         reason="fetch failed")
 
 if __name__ == "__main__":
     main()
