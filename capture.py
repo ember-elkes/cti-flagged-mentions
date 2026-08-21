@@ -166,7 +166,7 @@ def main():
         print("Entry exists")
         return
         kind, payload = fetch_article(url)
-    if not kind:
+    if not payload:
         create_entry(
             url=url, title="", date="", text_source="", resolved="", 
             aliases_hit="", status="Needs Review", reason="fetch failed"
