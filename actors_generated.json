@@ -1,0 +1,89 @@
+[
+  {
+    "name": "Anubis Gang",
+    "aliases": [
+      "Anubis",
+      "Sphinx"
+    ]
+  },
+  {
+    "name": "APT28",
+    "aliases": [
+      "Fancy Bear",
+      "Forest Blizzard",
+      "FROZENLAKE",
+      "G0007",
+      "Group 74",
+      "GruesomeLarch",
+      "Iron Twilight",
+      "Sednit",
+      "Sofacy",
+      "STRONTIUM"
+    ]
+  },
+  {
+    "name": "APT29",
+    "aliases": [
+      "Blue Kitsune",
+      "Cozy Bear",
+      "Dark Halo",
+      "G0016",
+      "IRON HEMLOCK",
+      "Midnight Blizzard",
+      "NOBELIUM",
+      "Noble Baron",
+      "The Dukes",
+      "UNC2452",
+      "UNC3524",
+      "YTTRIUM"
+    ]
+  },
+  {
+    "name": "CyberAv3ngers",
+    "aliases": [
+      "Cyber Av3ngers",
+      "Soldiers of Soloman",
+      "Soldiers of Solomon"
+    ]
+  },
+  {
+    "name": "Exfil Squad",
+    "aliases": []
+  },
+  {
+    "name": "FIN7",
+    "aliases": [
+      "Carbon Spider",
+      "Navigator Group",
+      "Sangria Tempest"
+    ]
+  },
+  {
+    "name": "Hunters International",
+    "aliases": [
+      "World Leaks"
+    ]
+  },
+  {
+    "name": "Lazarus Group",
+    "aliases": [
+      "Diamond Sleet",
+      "HIDDEN COBRA",
+      "Labyrinth Chollima",
+      "NICKEL ACADEMY",
+      "ZINC"
+    ]
+  },
+  {
+    "name": "ShinyHunters",
+    "aliases": []
+  },
+  {
+    "name": "Volt Typhoon",
+    "aliases": [
+      "Bronze Silhouette",
+      "Insidious Taurus",
+      "Vanguard Panda"
+    ]
+  }
+]
