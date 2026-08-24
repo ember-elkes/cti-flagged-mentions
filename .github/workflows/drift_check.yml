@@ -20,5 +20,5 @@ jobs:
         env:
           TAS_NOTION_TOKEN: ${{ secrets.TAS_NOTION_TOKEN }}
           ACTORS_FILE: actors_generated.json
-        
-       -run: git diff --no-index --exit-code actors.json actors_generated.json
+          
+      - run: git diff --no-index --exit-code actors.json actors_generated.json
