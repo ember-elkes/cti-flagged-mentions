@@ -1,0 +1,12 @@
+[
+  {
+    "name": "CyberAv3ngers",
+    "aliases": ["Cyber Av3ngers", "Soldiers of Soloman"],
+    "note": "Spacing variant observed in Dragos coverage; 'soloman' mispelling appears on MITRE ATT&CK group page (G1027)"
+  },
+    {
+    "name": "Lazarus Group",
+    "aliases": ["Lazarus"],
+    "note": "Group often referred to as Lazarus hackers"
+  }
+]
