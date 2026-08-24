@@ -1,4 +1,4 @@
-name: Check actors.json drift
+name: Check Actors Drift
 on:
   schedule:
     - cron: "30 8 * * 5"   # weekly on Fridays at 0830
