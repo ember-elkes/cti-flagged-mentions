@@ -1,103 +1,89 @@
- [
-   {
--    "name": "APT29",
--    "aliases": ["Cozy Bear", "Midnight Blizzard", "NOBELIUM", "The Dukes", "Yttrium"]
-+    "name": "Anubis Gang",
-+    "aliases": [
-+      "Anubis",
-+      "Sphinx"
-+    ]
-   },
-   {
-     "name": "APT28",
--    "aliases": [ "Fancy Bear", "Forest Blizzard", "STRONTIUM", "Sofacy", "Sednit"]
-+    "aliases": [
-+      "Fancy Bear",
-+      "Forest Blizzard",
-+      "FROZENLAKE",
-+      "G0007",
-+      "Group 74",
-+      "GruesomeLarch",
-+      "Iron Twilight",
-+      "Sednit",
-+      "Sofacy",
-+      "STRONTIUM"
-+    ]
-   },
-   {
--    "name": "Lazarus Group",
--    "aliases": ["Lazarus", "Hidden Cobra", "Diamond Sleet", "APT38", "Zinc"]
-+    "name": "APT29",
-+    "aliases": [
-+      "Blue Kitsune",
-+      "Cozy Bear",
-+      "Dark Halo",
-+      "G0016",
-+      "IRON HEMLOCK",
-+      "Midnight Blizzard",
-+      "NOBELIUM",
-+      "Noble Baron",
-+      "The Dukes",
-+      "UNC2452",
-+      "UNC3524",
-+      "YTTRIUM"
-+    ]
-   },
-   {
--    "name": "FIN7",
--    "aliases": ["Carbon Spider", "Sangria Tempest", "Navigator Group"]
-+    "name": "CyberAv3ngers",
-+    "aliases": [
-+      "Soldiers of Solomon"
-+    ]
-   },
-   {
--    "name": "Volt Typhoon",
--    "aliases": ["Bronze Silhouette", "Vanguard Panda", "Insidious Taurus"]
-+    "name": "Exfil Squad",
-+    "aliases": []
-+  },
-+  {
-+    "name": "FIN7",
-+    "aliases": [
-+      "Carbon Spider",
-+      "Navigator Group",
-+      "Sangria Tempest"
-+    ]
-   },
--   {
-+  {
-     "name": "Hunters International",
--    "aliases": ["World Leaks"]
-+    "aliases": [
-+      "World Leaks"
-+    ]
-+  },
-+  {
-+    "name": "Lazarus Group",
-+    "aliases": [
-+      "Diamond Sleet",
-+      "HIDDEN COBRA",
-+      "Labyrinth Chollima",
-+      "NICKEL ACADEMY",
-+      "ZINC"
-+    ]
-   },
--     {
--    "name": "Anubis",
--    "aliases": ["Sphinx"]
-+  {
-+    "name": "ShinyHunters",
-+    "aliases": []
-   },
-   {
--    "name": "CyberAv3ngers",
--    "aliases": ["Soldiers of Solomon", "Soldiers of Soloman", "Cyber Av3ngers", "cyberav3ngers"]
-+    "name": "Volt Typhoon",
-+    "aliases": [
-+      "Bronze Silhouette",
-+      "Insidious Taurus",
-+      "Vanguard Panda"
-+    ]
-   }
- ]
+[
+  {
+    "name": "Anubis Gang",
+    "aliases": [
+      "Anubis",
+      "Sphinx"
+    ]
+  },
+  {
+    "name": "APT28",
+    "aliases": [
+      "Fancy Bear",
+      "Forest Blizzard",
+      "FROZENLAKE",
+      "G0007",
+      "Group 74",
+      "GruesomeLarch",
+      "Iron Twilight",
+      "Sednit",
+      "Sofacy",
+      "STRONTIUM"
+    ]
+  },
+  {
+    "name": "APT29",
+    "aliases": [
+      "Blue Kitsune",
+      "Cozy Bear",
+      "Dark Halo",
+      "G0016",
+      "IRON HEMLOCK",
+      "Midnight Blizzard",
+      "NOBELIUM",
+      "Noble Baron",
+      "The Dukes",
+      "UNC2452",
+      "UNC3524",
+      "YTTRIUM"
+    ]
+  },
+  {
+    "name": "CyberAv3ngers",
+    "aliases": [
+      "Cyber Av3ngers",
+      "Soldiers of Soloman",
+      "Soldiers of Solomon"
+    ]
+  },
+  {
+    "name": "Exfil Squad",
+    "aliases": []
+  },
+  {
+    "name": "FIN7",
+    "aliases": [
+      "Carbon Spider",
+      "Navigator Group",
+      "Sangria Tempest"
+    ]
+  },
+  {
+    "name": "Hunters International",
+    "aliases": [
+      "World Leaks"
+    ]
+  },
+  {
+    "name": "Lazarus Group",
+    "aliases": [
+      "Diamond Sleet",
+      "HIDDEN COBRA",
+      "Labyrinth Chollima",
+      "NICKEL ACADEMY",
+      "ZINC"
+    ]
+  },
+  {
+    "name": "ShinyHunters",
+    "aliases": []
+  },
+  {
+    "name": "Volt Typhoon",
+    "aliases": [
+      "Bronze Silhouette",
+      "Insidious Taurus",
+      "Vanguard Panda"
+    ]
+  }
+]
