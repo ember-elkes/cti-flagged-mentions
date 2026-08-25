@@ -201,9 +201,10 @@ def main():
         if notion_entry_exists(url):
             print("Entry exists")
             return
-    result = process_url(url)
-    create_entry(url=url, **result)
+        result = process_url(url)
+        create_entry(url=url, **result)
 
 
 if __name__ == "__main__":
     main()
+
