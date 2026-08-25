@@ -196,31 +196,14 @@ def process_url(url):
     }
 
 def main():
-    url = os.environ["CAPTURE_URL"]
-    if notion_entry_exists(url):
-        print("Entry exists")
-        return
-    kind, payload = fetch_article(url)
-    if not payload:
-        create_entry(
-            url=url, title="", date="", text_source="", resolved="", 
-            aliases_hit="", status="Needs Review", reason="fetch failed"
-        )
-        return
+    def main():
+        url = os.environ["CAPTURE_URL"]
+        if notion_entry_exists(url):
+            print("Entry exists")
+            return
     result = process_url(url)
-    # Create the database record
-    create_entry(url, result)
+    create_entry(url=url, **result)
 
-    # UPDATED: Pass both variables down to extraction
-    title, date, text = extract_content(kind, payload)
-    alias_index = build_alias_index(actors)
-    matches = match_actors(f"{title} {text}", alias_index)
-    resolved, unresolved = resolve_actor_ids([name for name, _ in matches])
-    status, reason = decide(matches, unresolved, text)
-    create_entry(url=url, title=None, date=None,
-        text_source=derive_vendor(url), resolved=[],
-        aliases_hit="", status="Needs Review",
-        reason="fetch failed")
 
 if __name__ == "__main__":
     main()
