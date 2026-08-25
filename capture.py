@@ -159,6 +159,41 @@ def decide(matches, unresolved, text):
     
     # Default condition: All checks passed
     return "Matched", ""
+def process_url(url):
+    kind, payload = fetch_article(url)
+    
+    # Handle fetch failures gracefully
+    if not payload:
+        return {
+            "title": "",
+            "date": "",
+            "text_source": derive_vendor(url),
+            "resolved": [],
+            "aliases_hit": "",
+            "status": "Needs Review",
+            "reason": "fetch failed"
+        }
+
+    title, date, text = extract_content(kind, payload)
+    
+    alias_index = build_alias_index(actors)
+    matches = match_actors(f"{title} {text}", alias_index)
+    resolved, unresolved = resolve_actor_ids([name for name, _ in matches])
+    
+    status, reason = decide(matches, unresolved, text)
+    
+    # Build comma-separated string of matched variants for the Notion column
+    aliases_hit = ", ".join([variant for _, variant in matches])
+
+    return {
+        "title": title,
+        "date": date,
+        "text_source": derive_vendor(url),
+        "resolved": resolved,
+        "aliases_hit": aliases_hit,
+        "status": status,
+        "reason": reason
+    }
 
 def main():
     url = os.environ["CAPTURE_URL"]
@@ -172,6 +207,9 @@ def main():
             aliases_hit="", status="Needs Review", reason="fetch failed"
         )
         return
+    result = process_url(url)
+    # Create the database record
+    create_entry(url, result)
 
     # UPDATED: Pass both variables down to extraction
     title, date, text = extract_content(kind, payload)
@@ -180,9 +218,9 @@ def main():
     resolved, unresolved = resolve_actor_ids([name for name, _ in matches])
     status, reason = decide(matches, unresolved, text)
     create_entry(url=url, title=None, date=None,
-         text_source=derive_vendor(url), resolved=[],
-         aliases_hit="", status="Needs Review",
-         reason="fetch failed")
+        text_source=derive_vendor(url), resolved=[],
+        aliases_hit="", status="Needs Review",
+        reason="fetch failed")
 
 if __name__ == "__main__":
     main()
