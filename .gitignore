@@ -1,0 +1,10 @@
+# Generated scratch output -- regenerated on demand, never committed
+actors_generated.json
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Credentials -- belt and braces; the real config lives in %APPDATA%
+config.json
+.env
