@@ -4,7 +4,7 @@ actors_generated.json
 # Python bytecode
 __pycache__/
 *.pyc
-__gui__
+
 # Credentials -- belt and braces; the real config lives in %APPDATA%
 config.json
 .env
