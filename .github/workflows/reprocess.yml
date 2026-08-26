@@ -1,16 +1,11 @@
 name: Reprocess
 on:
-  repository_dispatch:
-    types: [capture-url]
+  workflow_dispatch: {}
 jobs:
   capture:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - run: |
-          if [ -z "$TAS_NOTION_TOKEN" ]; then echo "TOKEN IS EMPTY"; else echo "Token present, length ${#TAS_NOTION_TOKEN}"; fi
-        env:
-          TAS_NOTION_TOKEN: ${{ secrets.TAS_NOTION_TOKEN }}
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
