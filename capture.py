@@ -165,8 +165,8 @@ def process_url(url):
     # Handle fetch failures gracefully
     if not payload:
         return {
-            "title": "",
-            "date": "",
+            "title": None,
+            "date": None,
             "text_source": derive_vendor(url),
             "resolved": [],
             "aliases_hit": "",
@@ -192,15 +192,93 @@ def process_url(url):
         "resolved": resolved,
         "aliases_hit": aliases_hit,
         "status": status,
-        "reason": reason
+        "reason": reason,
+        "url": url,
     }
 
+def get_ticked_entries():
+    url = f"https://api.notion.com/v1/data_sources/{INBOX_DS_ID}/query"
+    
+    # Payload targeting rows where the checkbox is marked True
+    payload = {
+        "filter": {
+            "property": "Reprocess",  
+            "checkbox": {
+                "equals": True
+            }
+        },
+        "page_size": 100
+    }
+    
+    all_results = []
+    has_more = True
+    start_cursor = None
+    
+    while has_more:
+        if start_cursor:
+            payload["start_cursor"] = start_cursor
+            
+        try:
+            resp = requests.post(url, headers=NOTION_HEADERS, json=payload, timeout=30)
+            resp.raise_for_status()
+            data = safe_json(resp, "fetch ticked entries")
+            
+            # Append this batch of pages to our main list
+            all_results.extend(data.get("results", []))
+            
+            # Check for pagination tokens
+            has_more = data.get("has_more", False)
+            start_cursor = data.get("next_cursor", None)
+            
+        except requests.exceptions.RequestException as e:
+            print(f"Failed to query ticked entries from Notion: {e}", file=sys.stderr)
+            break
+            
+    print(f"Found {len(all_results)} entries queued for reprocessing.")
+    return all_results
+def reprocess():
+    ticked_entries = get_ticked_entries() 
+    for entry in ticked_entries:
+        page_id = entry["id"]
+        url = entry["properties"]["URL"]["url"]
+        print(f"Reprocessing: {url}")
+        try:
+            # Process via the exact same rules pipeline
+            result = process_url(url)
+            
+            # Write update back to the exact same Notion page ID
+            update_entry(page_id, result)
+        except Exception as e:
+            print(f"Failed to reprocess page {page_id}: {e}", file=sys.stderr)
+
+def update_entry(page_id, result):
+    properties = {
+        "Title": {"title": [{"text": {"content": result["title"] or result["url"]}}]},
+        "Threat Actors": {"relation": [{"id": pid} for _, pid in result["resolved"]]},
+        "Matched Aliases": {"rich_text": [{"text": {"content": result["aliases_hit"]}}]},
+        "Source": {"rich_text": [{"text": {"content": result["text_source"]}}]},
+        "Status": {"select": {"name": result["status"]}},
+        "Review Reason": {"rich_text": [{"text": {"content": result["reason"]}}]},
+        "Reprocess": {"checkbox": False},
+        "Published Date": {"date": {"start": result["date"]} if result["date"] else None},
+    }
+    resp = requests.patch(
+        f"https://api.notion.com/v1/pages/{page_id}",
+        headers=NOTION_HEADERS,
+        json={"properties": properties},
+        timeout=30,
+    )
+    resp.raise_for_status()
+    print(f"Updated entry: {result['title'] or page_id} [{result['status']}]")
+
 def main():
-    def main():
-        url = os.environ["CAPTURE_URL"]
-        if notion_entry_exists(url):
-            print("Entry exists")
-            return
+    if os.environ.get("REPROCESS"):
+        reprocess()
+        return
+    url = os.environ["CAPTURE_URL"]    
+    if notion_entry_exists(url):
+        print("Entry exists")
+        return
     result = process_url(url)
     create_entry(url=url, **result)
 
