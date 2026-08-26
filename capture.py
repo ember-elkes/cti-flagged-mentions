@@ -7,10 +7,10 @@ import feedparser
 import requests
 import pypdf
 from urllib.parse import urlparse
-from common import USER_AGENT, load_json, build_alias_index, match_actors, strip_html, safe_json
+from common import USER_AGENT, load_json, build_alias_index, match_actors, strip_html, safe_json, get_secret
 
 # --- config (application reads config, remember) ---
-TAS_NOTION_TOKEN = os.environ.get("TAS_NOTION_TOKEN")
+TAS_NOTION_TOKEN = get_secret("TAS_NOTION_TOKEN", "notion_token")
 INBOX_DS_ID = "3c14ef9d-f9e9-808d-8f48-000b3fa5e197"
 ACTOR_DS_ID =  "2cb4ef9d-f9e9-80f4-a0d5-000ba2963368"
 ACTORS_FILE = os.environ.get("ACTORS_FILE", "actors.json")
@@ -272,7 +272,6 @@ def update_entry(page_id, result):
     print(f"Updated entry: {result['title'] or page_id} [{result['status']}]")
 
 def main():
-<<<<<<< HEAD
     if os.environ.get("REPROCESS"):
         reprocess()
         return
@@ -281,18 +280,7 @@ def main():
         print("Entry exists")
         return
     result = process_url(url)
-    create_entry(url=url, **result)
-=======
-    def main():
-        url = os.environ["CAPTURE_URL"]
-        if notion_entry_exists(url):
-            print("Entry exists")
-            return
-        result = process_url(url)
-        create_entry(url=url, **result)
->>>>>>> fdf6b74488c3f3556973f99955e5f86064f0368e
-
+    create_entry(**result)
 
 if __name__ == "__main__":
     main()
-

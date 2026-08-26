@@ -74,4 +74,25 @@ def safe_json(resp, context=""):
         print(f"Non-JSON response{label} (HTTP {resp.status_code}): {snippet}", file=sys.stderr)
         raise
 
+def get_secret(name, config_key=None):
+    if name in os.environ:
+        return os.environ[name]
 
+    appdata_dir = os.environ.get("APPDATA")
+    if appdata_dir:
+        config_path = os.path.join(os.environ["APPDATA"], "cti-capture", "config.json")
+    else:
+        config_path = r"C:\Users\HP\AppData\Roaming\cti-capture\config.json"
+    if appdata_dir and config_key and os.path.exists(config_path):
+        try:
+            with open(config_path, "r", encoding="utf-8") as f:
+                config_data = json.load(f)
+                if config_key in config_data:
+                    return config_data[config_key]
+        except (json.JSONDecodeError, IOError) as e:
+            raise RuntimeError(f"Config file {config_path} exists but could not be read: {e}") from e
+    error_msg = (
+        f"Error: {name} not found in environment or in "
+        f"{config_path} (key: {config_key})"
+    )
+    raise KeyError(error_msg)    

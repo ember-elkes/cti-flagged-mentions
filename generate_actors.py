@@ -36,9 +36,9 @@ from collections import defaultdict
 
 import requests
 
-from common import safe_json
+from common import safe_json, get_secret
 
-TAS_NOTION_TOKEN = os.environ.get("TAS_NOTION_TOKEN")
+TAS_NOTION_TOKEN = get_secret("TAS_NOTION_TOKEN", "notion_token")
 ACTOR_DS_ID = "2cb4ef9d-f9e9-80f4-a0d5-000ba2963368"
 ALIAS_DS_ID = "2cc4ef9d-f9e9-808d-9f5e-000ba59abca4"
 
