@@ -272,6 +272,7 @@ def update_entry(page_id, result):
     print(f"Updated entry: {result['title'] or page_id} [{result['status']}]")
 
 def main():
+<<<<<<< HEAD
     if os.environ.get("REPROCESS"):
         reprocess()
         return
@@ -281,7 +282,17 @@ def main():
         return
     result = process_url(url)
     create_entry(url=url, **result)
+=======
+    def main():
+        url = os.environ["CAPTURE_URL"]
+        if notion_entry_exists(url):
+            print("Entry exists")
+            return
+        result = process_url(url)
+        create_entry(url=url, **result)
+>>>>>>> fdf6b74488c3f3556973f99955e5f86064f0368e
 
 
 if __name__ == "__main__":
     main()
+
