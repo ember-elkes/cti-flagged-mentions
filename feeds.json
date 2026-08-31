@@ -8,7 +8,6 @@
   { "name": "Microsoft Security Blog", "url": "https://www.microsoft.com/security/blog/feed/" },
   { "name": "SecureList (Kaspersky)", "url": "https://securelist.com/feed/" },
   { "name": "The Record (Recorded Future)", "url": "https://therecord.media/feed/" },
-  { "name": "Dark Reading", "url": "https://www.darkreading.com/feeds/rss.xml"},
   { "name": "Cybersecurity Dive", "url": "https://www.cybersecuritydive.com/feeds/news/"},
   {"name": "Krebs on Security", "url": "https://krebsonsecurity.com/feed/"},
   {"name": "CISO Series Cybersecurity Headlines", "url": "https://rss.libsyn.com/shows/289580/destinations/2260670.xml"},
