@@ -2,18 +2,18 @@
 
 
 Environment variables required:
-  WP_BASE_URL      e.g. https://yourcti.site  (no trailing slash needed)
-  WP_USER          WordPress username
-  WP_APP_PASSWORD  WordPress Application Password
+WP_BASE_URL      e.g. https://yourcti.site  (no trailing slash needed)
+WP_USER          WordPress username
+WP_APP_PASSWORD  WordPress Application Password
                     (Users -> Profile -> Application Passwords in wp-admin)
 
 Optional environment variables:
-  FEEDS_FILE   path to feeds.json  (default: feeds.json)
-  ACTORS_FILE  path to actors.json (default: actors.json)
+FEEDS_FILE   path to feeds.json  (default: feeds.json)
+ACTORS_FILE  path to actors.json (default: actors.json)
 """
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import feedparser
 import requests
@@ -45,6 +45,7 @@ def mention_exists(source_url):
         auth=AUTH,
         timeout=TIMEOUT,
     )
+
     resp.raise_for_status()
     return len(safe_json(resp, "mention_exists")) > 0
 
@@ -69,7 +70,7 @@ def create_flagged_mention(entry, matches, actor_cache, status_cache):
     actor_ids = [get_or_create_term(ACTOR_TAX_ENDPOINT, name, actor_cache) for name, _ in matches]
     status_id = get_or_create_term(STATUS_TAX_ENDPOINT, "New", status_cache)
     alias_hit = matches[0][1]
-
+ 
     payload = {
         "title": (entry.get("title") or "Untitled")[:200],
         "status": "draft",  # keeps it out of any public queries
@@ -83,12 +84,14 @@ def create_flagged_mention(entry, matches, actor_cache, status_cache):
             "found_at": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         },
     }
+
     resp = requests.post(MENTION_ENDPOINT, json=payload, auth=AUTH, timeout=TIMEOUT)
     resp.raise_for_status()
     return safe_json(resp, "create mention")
 
 
 def main():
+    cutoff = datetime.now(timezone.utc) - timedelta(days=7)
     feeds = load_json(FEEDS_FILE, [])
     actors = load_json(ACTORS_FILE, [])
     if not actors:
@@ -103,22 +106,34 @@ def main():
     created, checked = 0, 0
 
     for feed in feeds:
-        parsed = feedparser.parse(feed["url"], agent=USER_AGENT)
-        status = parsed.get("status")
+        name = feed.get("name", feed["url"])
+        print(f"Checking {name}...")
 
-        if status and status >= 400:
-            print(f"Warning: '{feed.get('name', feed['url'])}' returned HTTP {status}", file=sys.stderr)
+        try:
+            resp = requests.get(feed["url"], headers={"User-Agent": USER_AGENT}, timeout=30)
+            resp.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            print(f"Warning: could not fetch '{name}': {e}", file=sys.stderr)
             continue
+
+        parsed = feedparser.parse(resp.content)
 
         if parsed.bozo and not parsed.entries:
             reason = parsed.get("bozo_exception", "unknown error")
-            print(f"Warning: could not parse '{feed.get('name', feed['url'])}': {reason}", file=sys.stderr)
+            print(f"Warning: could not parse '{name}': {reason}", file=sys.stderr)
             continue
 
         for entry in parsed.entries:
             link = entry.get("link", "")
             if not link:
                 continue
+
+            published = entry.get("published_parsed")      # ← here
+            if published:
+                entry_date = datetime(*published[:6], tzinfo=timezone.utc)
+                if entry_date < cutoff:
+                    continue
+
             checked += 1
 
             text_blob = f"{entry.get('title', '')} {entry.get('summary', '')}"
