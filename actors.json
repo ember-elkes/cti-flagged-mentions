@@ -59,10 +59,18 @@
     ]
   },
   {
+    "name": "GhostSec",
+    "aliases": []
+  },
+  {
     "name": "Hunters International",
     "aliases": [
       "World Leaks"
     ]
+  },
+  {
+    "name": "Killnet",
+    "aliases": []
   },
   {
     "name": "Lazarus Group",
@@ -74,6 +82,14 @@
       "NICKEL ACADEMY",
       "ZINC"
     ]
+  },
+  {
+    "name": "LulzSec",
+    "aliases": []
+  },
+  {
+    "name": "NoName057(16)",
+    "aliases": []
   },
   {
     "name": "ShinyHunters",
