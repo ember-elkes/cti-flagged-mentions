@@ -1,25 +1,21 @@
 [
   { "name": "Cisco Talos", "url": "http://feeds.feedburner.com/feedburner/Talos" },
   { "name": "The Hacker News", "url": "https://feeds.feedburner.com/TheHackersNews" },
-  { "name": "BleepingComputer", "url": "https://www.bleepingcomputer.com/feed/" },
   { "name": "Krebs on Security", "url": "https://krebsonsecurity.com/feed/" },
   { "name": "CrowdStrike Threat Intel", "url": "https://www.crowdstrike.com/en-us/blog/feed/" },
-  { "name": "Palo Alto Unit 42", "url": "https://unit42.paloaltonetworks.com/feed/" },
   { "name": "Microsoft Security Blog", "url": "https://www.microsoft.com/security/blog/feed/" },
   { "name": "SecureList (Kaspersky)", "url": "https://securelist.com/feed/" },
   { "name": "The Record (Recorded Future)", "url": "https://therecord.media/feed/" },
   { "name": "Cybersecurity Dive", "url": "https://www.cybersecuritydive.com/feeds/news/"},
-  {"name": "Krebs on Security", "url": "https://krebsonsecurity.com/feed/"},
   {"name": "CISO Series Cybersecurity Headlines", "url": "https://rss.libsyn.com/shows/289580/destinations/2260670.xml"},
-  {"name": "CIS Advisories", "url": "https://www.cisecurity.org/feed/advisories"},
   {"name": "Bellingcat", "url": "https://www.bellingcat.com/feed/"},
   {"name": "Bleeping Computer", "url": "https://www.bleepingcomputer.com/feed/"},
   {"name": "Hackmageddon", "url": "https://www.hackmageddon.com/feed/"},
-  {"name": "Threatpost", "url": "https://threatpost.com/feed/"},
   {"name": "Google Security", "url": "https://blog.google/security/rss/"},
-  {"name": "Sophos", "url": "https://www.sophos.com/en-us/blog/feed?id=blt6f15f4f7deaf4242"},
   {"name": "Recorded Future", "url": "https://www.recordedfuture.com/feed"},
   {"name": "Sentinel One", "url": "https://www.sentinelone.com/labs/feed/"},
-  {"name": "Palo Alto Unit 42", "url": "https://www.paloaltonetworks.com/blog/unit42/feed/"}
+  {"name": "Palo Alto Unit 42", "url": "https://unit42.paloaltonetworks.com/category/threat-research/feed/"}
+
   
 ]
+
